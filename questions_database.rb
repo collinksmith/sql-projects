@@ -12,8 +12,8 @@ class QuestionsDatabase < SQLite3::Database
 end
 
 
-j = User.new({'fname' => 'Judy', 'lname' => 'Wacker'})
-
+j = User.find_by_id(10)
+j.lname = 'Clinton'
 j.save
 
 # p Question.find_by_id(1)
