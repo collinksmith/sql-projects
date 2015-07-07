@@ -54,13 +54,22 @@ CREATE TABLE question_likes (
 INSERT INTO
   users(fname, lname)
 VALUES
-  ('Ned', 'Ruggeri'), ('Kush', 'Patel'), ('Eric', 'Schwarzenbach');
+  ('Ned', 'Ruggeri'),
+  ('Kush', 'Patel'),
+  ('Eric', 'Schwarzenbach'),
+  ('Larry', 'Page'),
+  ('Jeff', 'Bezos'),
+  ('Ryan', 'Glassett');
 
 INSERT INTO
   questions(title, body, user_id)
 VALUES
   ('Good job today?', 'Nice work students, you rock', 1),
-  ('Party?', 'Party at my house this friday!!?!?!', 3);
+  ('Where am I?', 'Please help I am scared', 1),
+  ('No really, where am I?', 'Do I know you?', 1),
+  ('Party?', 'Party at my house this friday!!?!?!', 3),
+  ('How to do SQL?', 'Help me with SQL please.', 2),
+  ('What is the best JS framework?', 'What does everyone think??', 6);
 
 INSERT INTO
   replies(question_id, parent_id, user_id, body)
@@ -72,9 +81,14 @@ VALUES
 INSERT INTO
   question_likes(user_id, question_id)
 VALUES
-  (1, 1), (1, 2), (3, 1);
+  (1, 1), (1, 2), (3, 4);
 
 INSERT INTO
   question_follows(user_id, question_id)
 VALUES
-  (1, 2), (3, 2);
+  (1, 2),
+  (3, 2),
+  (4, 4),
+  (3, 2),
+  (1, 4),
+  (5, 1);
