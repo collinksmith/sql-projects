@@ -1,16 +1,19 @@
-class Reply
+class Reply < Model
   attr_accessor :id, :body, :question_id, :parent_id, :user_id
 
+  def self.table_name
+    'replies'
+  end
+
   def self.find_by_id(id)
-    Reply.new(QuestionsDatabase.instance.execute(<<-SQL, id).first
+    Reply.new(QuestionsDatabase.instance.execute(<<-SQL, id).first)
     SELECT
       *
     FROM
       replies
     WHERE
       id = ?
-  SQL
-  )
+    SQL
   end
 
   def self.find_by_user_id(user_id)

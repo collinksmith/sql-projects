@@ -1,5 +1,10 @@
-class Question
+class Question < Model
   attr_accessor :id, :title, :body, :user_id
+
+  def self.table_name
+    'questions'
+  end
+
 
   def self.find_by_id(id)
     Question.new(QuestionsDatabase.instance.execute(<<-SQL, id).first)

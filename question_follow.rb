@@ -1,4 +1,4 @@
-class QuestionFollow
+class QuestionFollow < Model
   attr_accessor :id, :user_id, :question_id
 
   def self.table_name
@@ -24,7 +24,7 @@ class QuestionFollow
   end
 
   def self.find_by_id(id)
-    QuestionFollow.new(QuestionsDatabase.instance.execute(<<-SQL, id).first
+    QuestionFollow.new(QuestionsDatabase.instance.execute(<<-SQL, id).first)
       SELECT
         *
       FROM
@@ -32,7 +32,6 @@ class QuestionFollow
       WHERE
         id = ?
     SQL
-    )
   end
 
   def self.followers_for_question_id(question_id)

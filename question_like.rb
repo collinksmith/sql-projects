@@ -1,16 +1,19 @@
-class QuestionLike
+class QuestionLike < Model
   attr_accessor :id, :user_id, :question_id
 
+  def self.table_name
+    'question_likes'
+  end
+
   def self.find_by_id(id)
-    QuestionLike.new(QuestionsDatabase.instance.execute(<<-SQL, id).first
+    QuestionLike.new(QuestionsDatabase.instance.execute(<<-SQL, id).first)
     SELECT
       *
     FROM
       question_likes
     WHERE
       id = ?
-  SQL
-  )
+    SQL
   end
 
   def self.most_liked_questions(n)
