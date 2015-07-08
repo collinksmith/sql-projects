@@ -10,9 +10,3 @@ class QuestionsDatabase < SQLite3::Database
   end
 
 end
-
-
-p QuestionLike.find_by_id(1)
-
-# p Question.find_by_id(1)
-# p Question.find_by_author_id(1)

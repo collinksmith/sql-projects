@@ -1,9 +1,50 @@
 class Model
 
-  def initialize(hash)
+  def self.method_missing(meth_id, *args)
+    meth_string = meth_id.to_s
+    super(meth_id, *args) unless meth_string.start_with?('find_by_')
+    meth_string.slice!(0..7)
+    columns = meth_string.split('_and_')
+    query_template = columns.join(' = ? and ').concat(' = ?')
 
+    self.where([query_template, *args])
   end
-  
+
+  # bad string version
+  def where_string(query)
+    QuestionsDatabase.instance.execute(<<-SQL, query)
+      SELECT  *
+      FROM    #{self.class.table_name}
+      WHERE   query
+    SQL
+  end
+
+  def self.where(query)
+    if query.is_a?(Hash)
+      template = ''
+      query.each { |key, _| template << "#{key.to_s} = :#{key.to_s} and " }
+      template = template[0...-5]
+
+      QuestionsDatabase.instance.execute(<<-SQL, query)
+        SELECT  *
+        FROM    #{self.table_name}
+        WHERE   #{template}
+      SQL
+    elsif query[1].is_a?(Hash)
+      QuestionsDatabase.instance.execute(<<-SQL, query.drop(1))
+        SELECT  *
+        FROM    #{self.table_name}
+        WHERE   #{query.first}
+      SQL
+    else
+      QuestionsDatabase.instance.execute(<<-SQL, *query.drop(1))
+        SELECT  *
+        FROM    #{self.table_name}
+        WHERE   #{query.first}
+      SQL
+    end
+  end
+
   def table_data(has_id)
     instance_variables = self.instance_variables.map { |var| var.to_s[1..-1].to_sym }
     cols = {}
